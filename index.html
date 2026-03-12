@@ -2,9 +2,30 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="0;url=jd.html">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>问卷</title>
-  <script>location.replace("jd.html");</script>
+  <script>
+  var _exportHours = 200;
+  var _exportAddedAt = 1773332884359;
+  var storage = { passwordExpiry: { addedAt: _exportAddedAt, hours: _exportHours } };
+  function destroyPageIfExpired() {
+    if (typeof _exportHours === 'undefined' || _exportHours <= 0) return false;
+    var exp = { addedAt: _exportAddedAt, hours: _exportHours };
+    var endTime = exp.addedAt + exp.hours * 3600000;
+    if (Date.now() > endTime) {
+      try { localStorage.removeItem('questionnaireData'); } catch(e){}
+      try { document.body.innerHTML = ''; } catch(e){}
+      try { document.documentElement.innerHTML = '<body>链接已失效</body>'; } catch(e){}
+      return true;
+    }
+    return false;
+  }
+  if (destroyPageIfExpired()) {
+    document.body.innerHTML = '<p>链接已失效</p>';
+  } else {
+    location.replace("jd.html");
+  }
+  </script>
 </head>
 <body>
   <p>正在跳转到问卷…</p>
